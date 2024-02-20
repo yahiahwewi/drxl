@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr"> <!-- Déclaration de la langue en français -->
+<head>
+    <!-- Méta-informations pour définir le jeu de caractères et la vue initiale -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page -->
+    <title>Recherche DRÄXLMAIER</title>
+    
+    <!-- Lien vers la feuille de style Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!-- Script pour la manipulation des fichiers Excel (XLSX) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    
+    <!-- Styles CSS pour la mise en page -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        #messageDisplay {
+            margin-top: 20px;
+        }
+
+        .logo {
+            max-width: 20ch;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Conteneur principal de la page -->
+    <div class="container">
+        <!-- Logo de DRÄXLMAIER -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/DR%C3%84XLMAIER_Group_Logo.svg/2560px-DR%C3%84XLMAIER_Group_Logo.svg.png" alt="Logo DRÄXLMAIER" class="logo">
+        
+        <!-- En-tête principal de la page -->
+        <h1 class="display-4">Recherche DRÄXLMAIER</h1>
+
+        <!-- Formulaire de recherche avec étiquette et champ de saisie CIN -->
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="cinInput">Entrer le CIN :</label>
+                <input type="text" class="form-control" id="cinInput" required>
+            </div>
+            
+            <!-- Bouton de recherche -->
+            <button type="button" class="btn btn-primary" onclick="search()">Rechercher</button>
+        </form>
+
+        <!-- Zone d'affichage des messages -->
+        <div id="messageDisplay"></div>
+    </div>
+
+    <!-- Script JavaScript pour la fonction de recherche -->
+    <script>
+        function search() {
+            // Récupération de la valeur du champ CIN
+            var cin = document.getElementById('cinInput').value.trim();
+
+            // Vérification que le champ CIN n'est pas vide
+            if (cin !== '') {
+                // Chemin du fichier Excel
+                var filePath = 'data.xlsx';
+
+                // Création d'une requête XMLHttpRequest pour charger le fichier Excel
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', filePath, true);
+                xhr.responseType = 'arraybuffer';
+
+                // Gestionnaire d'événement lorsque la requête est terminée
+                xhr.onload = function(e) {
+                    if (xhr.status == 200) {
+                        // Conversion du contenu du fichier Excel en tableau de données
+                        var data = new Uint8Array(xhr.response);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var sheetName = workbook.SheetNames[0];
+                        var sheet = workbook.Sheets[sheetName];
+                        
+                        // Conversion des données du tableau Excel en format JSON
+                        var jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                        // Filtrage des données pour trouver celles correspondant au CIN saisi
+                        var filteredData = jsonData.filter(function(row) {
+                            return String(row.CIN).toLowerCase() === cin.toLowerCase();
+                        });
+
+                        // Récupération de l'élément d'affichage des messages dans le HTML
+                        var messageDisplay = document.getElementById('messageDisplay');
+
+                        // Vérification s'il y a des données correspondantes
+                        if (filteredData.length > 0) {
+                            // Construction du contenu HTML pour afficher les données dans un tableau
+                            var contentHTML = '<p>Hey, contenu Excel pour CIN ' + cin + ' :</p>';
+                            contentHTML += '<div class="table-responsive">';
+                            contentHTML += '<table class="table table-bordered table-striped table-hover">';
+                            contentHTML += '<thead class="thead-dark"><tr>';
+                            
+                            // Exclure des colonnes spécifiques de l'en-tête du tableau
+                            Object.keys(filteredData[0]).forEach(function(key) {
+                                if (key !== 'Devise_2' && key !== 'IDObj' && key !== 'Début' && key !== 'Devise_1' && key !== 'Devise') {
+                                    contentHTML += '<th scope="col">' + key + '</th>';
+                                }
+                            });
+
+                            contentHTML += '</tr></thead><tbody>';
+
+                            // Construction des lignes du tableau avec les données filtrées
+                            filteredData.forEach(function(row) {
+                                contentHTML += '<tr>';
+
+                                // Exclure des colonnes spécifiques de chaque ligne
+                                Object.keys(row).forEach(function(key) {
+                                    if (key !== 'Devise_2' && key !== 'IDObj' && key !== 'Début' && key !== 'Devise_1' && key !== 'Devise') {
+                                        contentHTML += '<td>' + row[key] + '</td>';
+                                    }
+                                });
+
+                                contentHTML += '</tr>';
+                            });
+
+                            contentHTML += '</tbody></table>';
+                            contentHTML += '</div>';
+                            // Affichage du contenu HTML dans la zone de messages
+                            messageDisplay.innerHTML = contentHTML;
+                        } else {
+                            // Aucune donnée trouvée pour le CIN saisi
+                            messageDisplay.innerHTML = '<p>Aucune donnée trouvée pour CIN ' + cin + '.</p>';
+                        }
+                    } else {
+                        // Affichage d'une erreur si le chargement du fichier Excel échoue
+                        console.error('Échec du chargement du fichier Excel. Code d\'état :', xhr.status);
+                    }
+                };
+
+                // Gestionnaire d'erreur en cas de problème lors du chargement du fichier Excel
+                xhr.onerror = function(e) {
+                    console.error('Une erreur s\'est produite lors du chargement du fichier Excel.', e);
+                };
+
+                // Envoi de la requête pour charger le fichier Excel
+                xhr.send();
+            } else {
+                // Alerte si le champ CIN est vide
+                alert('Veuillez entrer un CIN valide.');
+            }
+        }
+    </script>
+
+    <!-- Scripts JavaScript Bootstrap et Popper.js (nécessaires pour certains composants Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
