@@ -97,7 +97,7 @@
                             contentHTML += '<table class="table table-bordered table-striped table-hover">';
                             contentHTML += '<thead class="thead-dark"><tr>';
                             
-                            var columnsToShow = ['CIN', 'Mat.', 'Nom et Prénom', 'Cat. de prêt', 'Solde', 'Fin'];
+                            var columnsToShow = ['CIN', 'Mat.', 'Nom et Prénom', 'Cat. de prêt', 'Solde', 'Début', 'Fin'];
 
                             columnsToShow.forEach(function(column) {
                                 contentHTML += '<th scope="col">' + column + '</th>';
@@ -114,6 +114,7 @@
                                 contentHTML += '<td>' + row['Matricule'] + '</td>'; // Assuming Matricule is now Nom et Prénom
                                 contentHTML += '<td>' + row['Cat. de prêt'] + '</td>';
                                 contentHTML += '<td>' + row['Solde'] + '</td>';
+                                contentHTML += '<td>' + row['Début'] + '</td>';
                                 contentHTML += '<td>' + row['Fin'] + '</td>';
                                 contentHTML += '</tr>';
                             });
