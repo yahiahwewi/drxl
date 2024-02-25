@@ -141,7 +141,20 @@
         }
 
 function formatDate(dateString) {
-    if (typeof dateString === 'string' && dateString.trim() !== '') {
+    if (typeof dateString === 'number' && !isNaN(dateString)) {
+        // Assuming the date value is a number representing the number of days since a reference date
+        var excelDate = new Date((dateString - 1) * 24 * 60 * 60 * 1000);
+        var day = excelDate.getDate();
+        var month = excelDate.getMonth() + 1; // Months are zero-based
+        var year = excelDate.getFullYear();
+
+        // Ensure leading zeros for day and month
+        day = day < 10 ? '0' + day : day;
+        month = month < 10 ? '0' + month : month;
+
+        var formattedDate = year + '/' + month + '/' + day;
+        return formattedDate;
+    } else if (typeof dateString === 'string' && dateString.trim() !== '') {
         var dateParts = dateString.split("/");
         if (dateParts.length === 3) {
             var day = dateParts[0];
@@ -159,10 +172,11 @@ function formatDate(dateString) {
             return dateString; // Return the original string if the format is not as expected
         }
     } else {
-        console.error('Invalid date string:', dateString);
-        return dateString; // Return the original value if it's not a valid string
+        console.error('Invalid date value:', dateString);
+        return dateString; // Return the original value if it's not a valid number or string
     }
 }
+
 
 
     </script>
