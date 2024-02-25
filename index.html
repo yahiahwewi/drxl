@@ -140,12 +140,19 @@
             }
         }
 
-     function formatDate(dateString) {
+function formatDate(dateString) {
     if (typeof dateString === 'string' && dateString.trim() !== '') {
-        // Assuming the date format is YYYY-MM-DD
-        var dateParts = dateString.split("-");
+        var dateParts = dateString.split("/");
         if (dateParts.length === 3) {
-            var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+            var day = dateParts[0];
+            var month = dateParts[1];
+            var year = dateParts[2];
+
+            // Ensure leading zeros for day and month
+            day = day.length === 1 ? '0' + day : day;
+            month = month.length === 1 ? '0' + month : month;
+
+            var formattedDate = year + '/' + month + '/' + day;
             return formattedDate;
         } else {
             console.error('Invalid date format:', dateString);
@@ -156,6 +163,7 @@
         return dateString; // Return the original value if it's not a valid string
     }
 }
+
 
     </script>
 
