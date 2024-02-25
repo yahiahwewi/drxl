@@ -114,8 +114,8 @@
                                 contentHTML += '<td>' + row['Matricule'] + '</td>'; // Assuming Matricule is now Nom et Prénom
                                 contentHTML += '<td>' + row['Cat. de prêt'] + '</td>';
                                 contentHTML += '<td>' + row['Solde'] + '</td>';
-                                contentHTML += '<td>' + row['Début'] + '</td>';
-                                contentHTML += '<td>' + row['Fin'] + '</td>';
+                                contentHTML += '<td>' + formatDate(row['Début']) + '</td>'; // Assuming 'Début' is a date field
+                                contentHTML += '<td>' + formatDate(row['Fin']) + '</td>'; // Assuming 'Fin' is a date field
                                 contentHTML += '</tr>';
                             });
 
