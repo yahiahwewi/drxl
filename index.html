@@ -140,12 +140,23 @@
             }
         }
 
-        function formatDate(dateString) {
-            // Assuming the date format is YYYY-MM-DD
-            var dateParts = dateString.split("-");
+     function formatDate(dateString) {
+    if (typeof dateString === 'string' && dateString.trim() !== '') {
+        // Assuming the date format is YYYY-MM-DD
+        var dateParts = dateString.split("-");
+        if (dateParts.length === 3) {
             var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
             return formattedDate;
+        } else {
+            console.error('Invalid date format:', dateString);
+            return dateString; // Return the original string if the format is not as expected
         }
+    } else {
+        console.error('Invalid date string:', dateString);
+        return dateString; // Return the original value if it's not a valid string
+    }
+}
+
     </script>
 
 
