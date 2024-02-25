@@ -1,4 +1,70 @@
-    <script>
+
+<!DOCTYPE html>
+<html lang="fr"> <!-- Déclaration de la langue en français -->
+<head>
+    <!-- Méta-informations pour définir le jeu de caractères et la vue initiale -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page -->
+    <title>Recherche DRÄXLMAIER</title>
+    
+    <!-- Lien vers la feuille de style Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!-- Script pour la manipulation des fichiers Excel (XLSX) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    
+    <!-- Styles CSS pour la mise en page -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        #messageDisplay {
+            margin-top: 20px;
+        }
+
+        .logo {
+            max-width: 20ch;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Conteneur principal de la page -->
+    <div class="container">
+        <!-- Logo de DRÄXLMAIER -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/DR%C3%84XLMAIER_Group_Logo.svg/2560px-DR%C3%84XLMAIER_Group_Logo.svg.png" alt="Logo DRÄXLMAIER" class="logo">
+        
+        <!-- En-tête principal de la page -->
+        <h1 class="display-4">Recherche DRÄXLMAIER</h1>
+
+        <!-- Formulaire de recherche avec étiquette et champ de saisie CIN -->
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="cinInput">Entrer le CIN :</label>
+                <input type="text" class="form-control" id="cinInput" required>
+            </div>
+            
+            <!-- Bouton de recherche -->
+            <button type="button" class="btn btn-primary" onclick="search()">Rechercher</button>
+        </form>
+
+        <!-- Zone d'affichage des messages -->
+        <div id="messageDisplay"></div>
+    </div>
+
+    <!-- Script JavaScript pour la fonction de recherche -->
+     <script>
         function search() {
             var cin = document.getElementById('cinInput').value.trim();
 
@@ -68,3 +134,12 @@
             }
         }
     </script>
+
+
+
+    <!-- Scripts JavaScript Bootstrap et Popper.js (nécessaires pour certains composants Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
