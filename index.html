@@ -64,7 +64,7 @@
     </div>
 
     <!-- Script JavaScript pour la fonction de recherche -->
-        <script>
+    <script>
         function search() {
             var cin = document.getElementById('cinInput').value.trim();
 
@@ -92,7 +92,7 @@
                         if (filteredData.length > 0) {
                             console.log("Filtered Data:", filteredData);
 
-                            var contentHTML = '<p> CIN ' + cin + ' :</p>';
+                            var contentHTML = '<p> CIN : ' + cin + ' </p>';
                             contentHTML += '<div class="table-responsive">';
                             contentHTML += '<table class="table table-bordered table-striped table-hover">';
                             contentHTML += '<thead class="thead-dark"><tr>';
@@ -139,7 +139,15 @@
                 alert('Veuillez entrer un CIN valide.');
             }
         }
+
+        function formatDate(dateString) {
+            // Assuming the date format is YYYY-MM-DD
+            var dateParts = dateString.split("-");
+            var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+            return formattedDate;
+        }
     </script>
+
 
 
     <!-- Scripts JavaScript Bootstrap et Popper.js (nécessaires pour certains composants Bootstrap) -->
