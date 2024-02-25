@@ -90,7 +90,8 @@
                         var messageDisplay = document.getElementById('messageDisplay');
 
                         if (filteredData.length > 0) {
-                            var contentHTML = '<p> CIN ' + cin + ' :</p>';
+                        var contentHTML = '<p> CIN : ' + cin + ' </p>' +
+                                          '<p> Nom Complet : ' + row['Matricule'] + ' </p>';
                             contentHTML += '<div class="table-responsive">';
                             contentHTML += '<table class="table table-bordered table-striped table-hover">';
                             contentHTML += '<thead class="thead-dark"><tr>';
